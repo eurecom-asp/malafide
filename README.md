@@ -73,6 +73,9 @@ Malafide checkpoints are saved as torch state dictionaries, so you should be abl
 malafilter.load_state_dict('path/to/checkpoint.pth')
 ```
 
+## Audio samples
+We provide samples of audio clips convolved with the Malafide filters **trained to fool RawNet** (the one in [[2]](#rawnet)). They can be found in `rawnet_audio_samples.zip`. Files named `LA_E_<id>.flac` are the original spoofed audio. Files named `LA_E_<id>_conv<atk>_<flt_length>.flac` are the same waveform convolved with a Malafide filter of length `<flt_length>` trained on RawNet. `<atk>` matches the spoofing attack that was used to produce the initial waveform.
+
 ## References
 <span id="mipa23">[1]</span> Panariello, M., Ge, W., Tak, H., Todisco, M., Evans, N. (2023) Malafide: a novel adversarial convolutive noise attack against deepfake and spoofing detection systems. Proc. INTERSPEECH 2023, 2868-2872, doi: 10.21437/Interspeech.2023-703  
 <span id="rawnet">[2]</span> H. Tak, J. Patino, M. Todisco, A. Nautsch, N. Evans and A. Larcher, "End-to-End anti-spoofing with RawNet2," _ICASSP 2021 - 2021 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)_, Toronto, ON, Canada, 2021, pp. 6369-6373, doi: 10.1109/ICASSP39728.2021.9414234  
