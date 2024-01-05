@@ -12,7 +12,7 @@ In this repository, the attack is performed on an even stronger CM which consist
 
 ## TL;DR
 If you are just here to grab the Malafide implementation, you can find the PyTorch class in `malafide.py`. At its core, it's basically just:
-```
+```python
 class Malafide(torch.nn.Module):
     def __init__(self, filter_size):
         super().__init__()
@@ -24,7 +24,7 @@ class Malafide(torch.nn.Module):
         return self.naughty_filter(x)
 ```
 Although the full class has some additional boilerplate. But that's the gist. Then you can use it as follows:
-```
+```python
 malafilter = Malafide(1025)
 audio = torch.randn(4,1,16000) # input waveforms of shape (B,1,L)
 output_audio = malafilter(audio)
@@ -35,7 +35,7 @@ Of course, since Malafide is a torch Module, you can optimize it with whatever P
 
 ## Installation
 As usual, install the required Python packages with
-```
+```bash
 pip install -r requirements.txt
 ```
 This will install the dependencies to run everything in the codebase **except for the CM system.**
@@ -44,7 +44,7 @@ To run the CM used in this codebase, you need to install fairseq.
 Specifically, you need the right fairseq version to run the SSL-AASIST model of [[4]](#tak22).  
 You can find the instructions in the [original repository](https://github.com/TakHemlata/SSL_Anti-spoofing) but, for your convenience,
 I'm reporting here the steps to do it.  According to the repo, you need to install in editable mode [this specific version of fairseq](https://github.com/pytorch/fairseq/tree/a54021305d6b3c4c5959ac9395135f63202db8f1). You can do it as follows:
-```
+```bash
 git clone https://github.com/facebookresearch/fairseq
 cd fairseq
 git reset --hard a54021305d6b3c4c5959ac9395135f63202db8f1
@@ -61,7 +61,7 @@ The dataset is ASVspoof2019, which can be found [here](https://datashare.ed.ac.u
 
 ## Run the Malafide training
 To train a Malafide filter, run:
-```
+```bash
 python Main_script_Malafide_training.py --fine_tuned --config ./configs/initial.conf --adv_filter_size=2049 --attack A10
 ```
 Where you change the configuration file path, the filter size, and the attack type accordingly.  
@@ -69,7 +69,7 @@ The attack type can is a string of format `A<n>`, where `<n>` goes from `07` to 
 
 The script performs validation every epoch and saves the checkpoints of the Malafide filters (which are just 1d vectors) and training scores (in tensorboard format) in a directory called `results`. You can change that path using the `--output_folder` script parameter. During validation, EER is computed on the set of Malafide'd spoofed samples (of only the selected attack) and all bonafide samples of ASVspoof2019.  
 Malafide checkpoints are saved as torch state dictionaries, so you should be able to load them and use them as with any torch model:
-```
+```python
 malafilter.load_state_dict('path/to/checkpoint.pth')
 ```
 
